@@ -13,6 +13,24 @@ Game::Game()
             windowFlags
         );
         renderer = SDL_CreateRenderer(window, -1, 0);
+
+        SDL_Surface* youWonSurface = IMG_Load("resources/images/you-won.png");
+        SDL_Surface* youLooseSurface = IMG_Load("resources/images/you-loose.png");
+
+        if (!youWonSurface) { printf("Failed to load you-won image."); exit(1); }
+        if (!youLooseSurface) { printf("Failed to load you-loose image."); exit(1); }
+
+        youWonTex = SDL_CreateTextureFromSurface(renderer, youWonSurface);
+        youLooseTex = SDL_CreateTextureFromSurface(renderer, youLooseSurface);
+
+        SDL_FreeSurface(youWonSurface);
+        SDL_FreeSurface(youLooseSurface);
+
+        infoImgRect.w = 600;
+        infoImgRect.h = 143;
+        infoImgRect.x = 110;
+        infoImgRect.y = 470;
+
         board = new Board(renderer, offsetX, offsetY, rows, columns);
         mousePoint = new Point(0, 0);
         currentField = new Field(-1, -1);
@@ -27,7 +45,7 @@ Game::Game()
 
 Game::~Game()
 {
-    //dtor
+
 }
 
 void Game::mainLoop()
@@ -79,19 +97,20 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    // TODO: on screen text
-    if (gameOver) {
-        if (won) {
-            printf("YOU WON!\n");
-        } else {
-            printf("YOU LOOSE!\n");
-        }
-    }
+
 }
 
 void Game::render()
 {
     board->draw(minefield, minefieldMask);
+
+    if (gameOver) {
+        if (won) {
+            SDL_RenderCopy(renderer, youWonTex, NULL, &infoImgRect);
+        } else {
+            SDL_RenderCopy(renderer, youLooseTex, NULL, &infoImgRect);
+        }
+    }
 
     SDL_RenderPresent(renderer);
 }
@@ -131,7 +150,6 @@ void Game::clickField(Field *field)
 
     if (minefield[field->y][field->x] == 0) {
         // Uncover zeros
-
         bool uncovered = false;
         do {
             uncovered = false;

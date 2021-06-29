@@ -2,18 +2,19 @@
 1624985306 source:/home/jakub/programowanie/kuba-minesweeper/src/Board.cpp
 	"Board.h"
 
-1624985588 /home/jakub/programowanie/kuba-minesweeper/include/Board.h
+1624986645 /home/jakub/programowanie/kuba-minesweeper/include/Board.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	"Point.h"
 	"Field.h"
 	"IsoConvert.h"
 
-1624985400 source:/home/jakub/programowanie/kuba-minesweeper/src/Game.cpp
+1624988947 source:/home/jakub/programowanie/kuba-minesweeper/src/Game.cpp
 	"Game.h"
 
-1624985459 /home/jakub/programowanie/kuba-minesweeper/include/Game.h
+1624988737 /home/jakub/programowanie/kuba-minesweeper/include/Game.h
 	<SDL2/SDL.h>
+	<SDL2/SDL_ttf.h>
 	"Board.h"
 	"Point.h"
 	"Field.h"

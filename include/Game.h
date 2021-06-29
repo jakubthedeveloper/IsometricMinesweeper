@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "Board.h"
 #include "Point.h"
 #include "Field.h"
@@ -39,12 +40,12 @@ class Game
         int numberOfMines = 10;
         int minefield[8][8];
         int minefieldMask[8][8];
-        int windowWidth = 820;
+        int windowWidth = 840;
         int windowHeight = 600;
         int windowFlags = 0;
 
-        int offsetX = 360;
-        int offsetY = 60;
+        int offsetX = 370;
+        int offsetY = 40;
 
         Board *board;
         void startGame(Field *clickedField);
@@ -55,6 +56,10 @@ class Game
         void uncoverNumbersAround(int x, int y);
         void checkWin();
         void uncoverAll();
+
+        SDL_Texture* youWonTex;
+        SDL_Texture* youLooseTex;
+        SDL_Rect infoImgRect;
 };
 
 #endif // GAME_H
