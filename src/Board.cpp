@@ -1,8 +1,10 @@
 #include "Board.h"
 
-Board::Board(SDL_Renderer *_renderer)
+Board::Board(SDL_Renderer *_renderer, int _offsetX, int _offsetY)
 {
     renderer = _renderer;
+    offsetX = _offsetX;
+    offsetY = _offsetY;
 
     SDL_Surface* groundSurface = IMG_Load("resources/images/ground.png");
 
@@ -38,4 +40,14 @@ void Board::draw()
             SDL_RenderCopy(renderer, groundTex, NULL, &tileRect);
         }
     }
+}
+
+int Board::getMapTileScreenWidth()
+{
+    return mapTileScreenWidth;
+}
+
+int Board::getMapTileScreenHeight()
+{
+    return mapTileScreenHeight;
 }

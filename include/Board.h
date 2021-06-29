@@ -9,9 +9,12 @@
 class Board
 {
     public:
-        Board(SDL_Renderer *renderer);
+        Board(SDL_Renderer *renderer, int offsetX, int offsetY);
         virtual ~Board();
         void draw();
+
+        int getMapTileScreenWidth();
+        int getMapTileScreenHeight();
 
     protected:
 
