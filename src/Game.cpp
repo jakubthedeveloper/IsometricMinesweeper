@@ -14,13 +14,7 @@ Game::Game()
         );
         renderer = SDL_CreateRenderer(window, -1, 0);
         board = new Board(renderer, offsetX, offsetY, rows, columns);
-
-        // Set initial full mask
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                minefieldMask[y][x] = 1;
-            }
-        }
+        maskAll();
 
         isRunning = true;
     } else {
@@ -87,6 +81,13 @@ void Game::render()
 
 void Game::click(int screenX, int screenY)
 {
+    if (gameOver) {
+        maskAll();
+        gameOver = false;
+        gameStarted = false;
+        return;
+    }
+
     int screenXwithOffset = screenX - offsetX;
     int screenYwithOffset = screenY - offsetY;
 
@@ -113,7 +114,17 @@ void Game::click(int screenX, int screenY)
 
     if (minefield[row][column] == mineMarker) {
         printf("GAME OVER"); // TODO: fancy text
+
+        // TODO: mark stomped mine
+        // Uncover all
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                minefieldMask[y][x] = 0;
+            }
+        }
+
         gameStarted = false;
+        gameOver = true;
     }
 
     printDebug();
@@ -188,6 +199,15 @@ void Game::startGame()
     }
 
     gameStarted = true;
+}
+
+void Game::maskAll()
+{
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            minefieldMask[y][x] = 1;
+        }
+    }
 }
 
 void Game::printDebug()

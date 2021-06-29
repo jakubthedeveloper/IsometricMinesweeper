@@ -18,9 +18,11 @@ class Game
         static const int mineMarker = -1;
         bool isRunning;
         bool gameStarted = false;
+        bool gameOver = false;
         void handleEvents();
         void update();
         void render();
+        void maskAll();
         void click(int screenX, int screenY);
         Uint32 frameStart;
         int frameTime;
