@@ -33,6 +33,7 @@ class Game
         int rows = 8;
         int numberOfMines = 20;
         int minefield[8][8];
+        int minefieldMask[8][8];
         int windowWidth = 800;
         int windowHeight = 600;
         int windowFlags = 0;
@@ -42,6 +43,7 @@ class Game
 
         Board *board;
         void startGame();
+        void printDebug();
 };
 
 #endif // GAME_H

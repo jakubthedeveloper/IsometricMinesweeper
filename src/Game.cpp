@@ -101,30 +101,20 @@ void Game::click(int screenX, int screenY)
         startGame();
     }
 
-    printf("%i:%i\n", column, row);
+    minefieldMask[row][column] = 0;
 
     // TODO: check field, update board
 
-    // DEBUG:
-    for (int y = 0; y < rows; y++) {
-        for (int x = 0; x < columns; x++) {
-            if (minefield[y][x] == mineMarker) {
-              printf("x");
-            } else {
-              printf("%i", minefield[y][x] );
-            }
-        }
-        printf("\n");
-    }
-    printf("\n");
+    printDebug();
 }
 
 void Game::startGame()
 {
-    // Empty minefield
+    // Clear minefield and it's mask
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < columns; x++) {
             minefield[y][x] = 0;
+            minefieldMask[y][x] = 1;
         }
     }
 
@@ -185,4 +175,29 @@ void Game::startGame()
     }
 
     gameStarted = true;
+}
+
+void Game::printDebug()
+{
+    printf("MINEFILED:\n");
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            if (minefield[y][x] == mineMarker) {
+              printf(" x");
+            } else {
+              printf("%2i", minefield[y][x] );
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    printf("MINEFILED MASK:\n");
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            printf("%2i", minefieldMask[y][x]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
