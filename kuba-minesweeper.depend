@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1624956625 source:/home/jakub/programowanie/kuba-minesweeper/src/Board.cpp
+	"Board.h"
+
+1624956769 /home/jakub/programowanie/kuba-minesweeper/include/Board.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<Point.h>
+	"IsoConvert.h"
+
+1624954867 source:/home/jakub/programowanie/kuba-minesweeper/src/Game.cpp
+	"Game.h"
+
+1624954830 /home/jakub/programowanie/kuba-minesweeper/include/Game.h
+	<SDL2/SDL.h>
+	"Board.h"
+
+1624951101 source:/home/jakub/programowanie/kuba-minesweeper/main.cpp
+	<iostream>
+	"Game.h"
+
+1624956337 /home/jakub/programowanie/kuba-minesweeper/include/IsoConvert.h
+	<Point.h>
+
+1624956382 /home/jakub/programowanie/kuba-minesweeper/include/Point.h
+
+1624956337 source:/home/jakub/programowanie/kuba-minesweeper/src/IsoConvert.cpp
+	"IsoConvert.h"
+
+1624956382 source:/home/jakub/programowanie/kuba-minesweeper/src/Point.cpp
+	"Point.h"
+
