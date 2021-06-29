@@ -9,7 +9,7 @@
 class Board
 {
     public:
-        Board(SDL_Renderer *renderer, int offsetX, int offsetY);
+        Board(SDL_Renderer *renderer, int offsetX, int offsetY, int rows, int columns);
         virtual ~Board();
         void draw();
 
@@ -20,11 +20,11 @@ class Board
 
     private:
         SDL_Renderer *renderer;
-        int offsetX = 350;
-        int offsetY = 60;
+        int offsetX;
+        int offsetY;
         SDL_Texture* groundTex;
-        int cols = 8;
-        int rows = 8;
+        int columns;
+        int rows;
 
         int mapTileWidth = 100;
         int mapTileHeight = 65;

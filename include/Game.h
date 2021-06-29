@@ -15,7 +15,9 @@ class Game
     protected:
 
     private:
+        static const int mineMarker = -1;
         bool isRunning;
+        bool gameStarted = false;
         void handleEvents();
         void update();
         void render();
@@ -27,6 +29,10 @@ class Game
         SDL_Window *window;
         SDL_Renderer *renderer;
 
+        int columns = 8;
+        int rows = 8;
+        int numberOfMines = 20;
+        int minefield[8][8];
         int windowWidth = 800;
         int windowHeight = 600;
         int windowFlags = 0;
@@ -35,6 +41,7 @@ class Game
         int offsetY = 60;
 
         Board *board;
+        void startGame();
 };
 
 #endif // GAME_H

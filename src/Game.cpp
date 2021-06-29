@@ -13,7 +13,7 @@ Game::Game()
             windowFlags
         );
         renderer = SDL_CreateRenderer(window, -1, 0);
-        board = new Board(renderer, offsetX, offsetY);
+        board = new Board(renderer, offsetX, offsetY, rows, columns);
         isRunning = true;
     } else {
         isRunning = false;
@@ -89,6 +89,100 @@ void Game::click(int screenX, int screenY)
     int column = ceil(clickedPoint2D.x / board->getMapTileScreenWidth()) -1;
     int row = ceil(clickedPoint2D.y / board->getMapTileScreenHeight()) - 1;
 
+    if (row < 0 || row >= rows) {
+      return;
+    }
+
+    if (column < 0 || column >= columns) {
+      return;
+    }
+
+    if (!gameStarted) {
+        startGame();
+    }
+
     printf("%i:%i\n", column, row);
+
     // TODO: check field, update board
+
+    // DEBUG:
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            if (minefield[y][x] == mineMarker) {
+              printf("x");
+            } else {
+              printf("%i", minefield[y][x] );
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void Game::startGame()
+{
+    // Empty minefield
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            minefield[y][x] = 0;
+        }
+    }
+
+    // Place mines
+    int minesLeftToPlace = numberOfMines;
+    while (minesLeftToPlace > 0)
+    {
+        int x = rand() % columns;
+        int y = rand() % rows;
+
+        if (minefield[y][x] != mineMarker) {
+            minefield[y][x] = mineMarker;
+            minesLeftToPlace--;
+        }
+    }
+
+    // Calculate number of adjacent mines
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            if (minefield[y][x] == mineMarker) {
+              continue;
+            }
+
+            minefield[y][x] = 0;
+
+            if (y > 0 && x > 0 && minefield[y-1][x-1] == mineMarker) {
+                minefield[y][x]++;
+            }
+
+            if (y > 0 && minefield[y-1][x] == mineMarker) {
+                minefield[y][x]++;
+            }
+
+            if (y > 0 && x < columns - 1 && minefield[y-1][x+1] == mineMarker) {
+                minefield[y][x]++;
+            }
+
+            if (x > 0 && minefield[y][x-1] == mineMarker) {
+                minefield[y][x]++;
+            }
+
+            if (x < columns - 1 && minefield[y][x+1] == mineMarker) {
+                minefield[y][x]++;
+            }
+
+            if (y < rows - 1 && x > 0 && minefield[y+1][x-1] == mineMarker) {
+                minefield[y][x]++;
+            }
+
+            if (y < rows - 1 && minefield[y+1][x] == mineMarker) {
+                minefield[y][x]++;
+            }
+
+            if (y < rows - 1 && x < columns - 1 && minefield[y+1][x+1] == mineMarker) {
+                minefield[y][x]++;
+            }
+        }
+    }
+
+    gameStarted = true;
 }

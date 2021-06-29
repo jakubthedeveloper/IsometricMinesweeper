@@ -1,10 +1,12 @@
 #include "Board.h"
 
-Board::Board(SDL_Renderer *_renderer, int _offsetX, int _offsetY)
+Board::Board(SDL_Renderer *_renderer, int _offsetX, int _offsetY, int _rows, int _columns)
 {
     renderer = _renderer;
     offsetX = _offsetX;
     offsetY = _offsetY;
+    rows = _rows;
+    columns = _columns;
 
     SDL_Surface* groundSurface = IMG_Load("resources/images/ground.png");
 
@@ -31,7 +33,7 @@ void Board::draw()
     tileRect.w = mapTileWidth;
     tileRect.h = mapTileHeight;
 
-    for (int y = 0; y < cols; y++) {
+    for (int y = 0; y < columns; y++) {
         for (int x = 0; x < rows; x++) {
             Point p = IsoConvert::twoDToIso(mapTileScreenWidth * x, mapTileScreenHeight * y);
             tileRect.x = p.x + offsetX;
