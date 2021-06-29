@@ -1,5 +1,5 @@
 # Isometric Minesweeper
-C++/SDL clone of the classic minesweeper, in isometric view.
+Minesweeper in isometric view, written in C++ / SDL2.
 
 ## Dependencies
 SDL2
@@ -17,3 +17,6 @@ sh compile.sh
 ![Isometric Minesweeper - screenshot 2](screenshots/2.png)
 ![Isometric Minesweeper - screenshot 3](screenshots/3.png)
 ![Isometric Minesweeper - screenshot 4](screenshots/4.png)
+
+## Blog Post (Polish only)
+[Izometryczny Saper w C++ SDL2](https://programisty-dzien-powszedni.pl/gra-saper-w-wersji-izometrycznej-w-c-i-sdl2)
