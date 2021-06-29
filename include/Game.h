@@ -3,7 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include "Board.h"
-
+#include "Point.h"
+#include "Field.h"
 
 class Game
 {
@@ -11,19 +12,21 @@ class Game
         Game();
         virtual ~Game();
         void mainLoop();
+        static const int mineMarker = -1;
+        static const int boomMarker = -2;
 
     protected:
 
     private:
-        static const int mineMarker = -1;
         bool isRunning;
         bool gameStarted = false;
         bool gameOver = false;
+        bool won = false;
         void handleEvents();
         void update();
         void render();
         void maskAll();
-        void click(int screenX, int screenY);
+        void clickField(Field *point);
         Uint32 frameStart;
         int frameTime;
         const int frameDelay = 1000 / 60; // 60 FPS
@@ -33,19 +36,25 @@ class Game
 
         int columns = 8;
         int rows = 8;
-        int numberOfMines = 20;
+        int numberOfMines = 10;
         int minefield[8][8];
         int minefieldMask[8][8];
-        int windowWidth = 800;
+        int windowWidth = 820;
         int windowHeight = 600;
         int windowFlags = 0;
 
-        int offsetX = 350;
+        int offsetX = 360;
         int offsetY = 60;
 
         Board *board;
-        void startGame();
+        void startGame(Field *clickedField);
         void printDebug();
+        Point *mousePoint;
+        Field *currentField;
+        void convertScreenToIso(Point *point, Field *currentField);
+        void uncoverNumbersAround(int x, int y);
+        void checkWin();
+        void uncoverAll();
 };
 
 #endif // GAME_H

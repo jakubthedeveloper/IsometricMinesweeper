@@ -3,7 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <Point.h>
+#include "Point.h"
+#include "Field.h"
 #include "IsoConvert.h"
 
 class Board
@@ -15,6 +16,7 @@ class Board
 
         int getMapTileScreenWidth();
         int getMapTileScreenHeight();
+        Field *highlight = nullptr;
 
     protected:
 
@@ -23,8 +25,10 @@ class Board
         int offsetX;
         int offsetY;
         SDL_Texture* groundTex;
+        SDL_Texture* groundTexHighlighted;
         SDL_Texture* deepGroundTex;
         SDL_Texture* mineTex;
+        SDL_Texture* boomTex;
         SDL_Texture* oneTex;
         SDL_Texture* twoTex;
         SDL_Texture* threeTex;
@@ -38,9 +42,9 @@ class Board
 
         int mapTileWidth = 100;
         int mapTileHeight = 65;
-        int mapTileScreenWidth = 40;
-        int mapTileScreenHeight = 40;
-        int deepGroundOffsetY = 2;
+        int mapTileScreenWidth = 52;
+        int mapTileScreenHeight = 52;
+        int deepGroundOffsetY = 8;
 
         SDL_Rect tileRect;
 };

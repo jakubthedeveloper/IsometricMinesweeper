@@ -33,8 +33,12 @@ Board::Board(SDL_Renderer *_renderer, int _offsetX, int _offsetY, int _rows, int
     if (!eightSurface) { printf("Failed to load eight image."); exit(1); }
 
     groundTex = SDL_CreateTextureFromSurface(renderer, groundSurface);
+    groundTexHighlighted = SDL_CreateTextureFromSurface(renderer, groundSurface);
+    SDL_SetTextureColorMod(groundTexHighlighted, 255, 200, 50);
     deepGroundTex = SDL_CreateTextureFromSurface(renderer, deepGroundSurface);
     mineTex = SDL_CreateTextureFromSurface(renderer, mineSurface);
+    boomTex = SDL_CreateTextureFromSurface(renderer, mineSurface);
+    SDL_SetTextureColorMod(boomTex, 255, 0, 0);
     oneTex = SDL_CreateTextureFromSurface(renderer, oneSurface);
     twoTex = SDL_CreateTextureFromSurface(renderer, twoSurface);
     threeTex = SDL_CreateTextureFromSurface(renderer, threeSurface);
@@ -90,13 +94,20 @@ void Board::draw(int minefield[8][8], int minefieldMask[8][8])
             tileRect.y = p.y + offsetY;
 
             if (minefieldMask[y][x] == 1) {
-                SDL_RenderCopy(renderer, groundTex, NULL, &tileRect);
+                if (highlight != nullptr && highlight->x == x && highlight->y == y) {
+                    SDL_RenderCopy(renderer, groundTexHighlighted, NULL, &tileRect);
+                } else {
+                    SDL_RenderCopy(renderer, groundTex, NULL, &tileRect);
+                }
                 continue;
             }
 
             switch (minefield[y][x]) {
                 case -1:
                     SDL_RenderCopy(renderer, mineTex, NULL, &tileRect);
+                    break;
+                case -2:
+                    SDL_RenderCopy(renderer, boomTex, NULL, &tileRect);
                     break;
                 case 1:
                     SDL_RenderCopy(renderer, oneTex, NULL, &tileRect);

@@ -39,11 +39,13 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/Board.h" />
+		<Unit filename="include/Field.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/IsoConvert.h" />
 		<Unit filename="include/Point.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Board.cpp" />
+		<Unit filename="src/Field.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/IsoConvert.cpp" />
 		<Unit filename="src/Point.cpp" />

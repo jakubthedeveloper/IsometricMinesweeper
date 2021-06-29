@@ -5,10 +5,10 @@
 class Point
 {
     public:
-        Point(double _x, double _y);
+        Point(double x, double y);
         virtual ~Point();
-        float x;
-        float y;
+        double x;
+        double y;
 
     protected:
 

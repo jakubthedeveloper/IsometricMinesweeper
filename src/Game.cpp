@@ -14,6 +14,9 @@ Game::Game()
         );
         renderer = SDL_CreateRenderer(window, -1, 0);
         board = new Board(renderer, offsetX, offsetY, rows, columns);
+        mousePoint = new Point(0, 0);
+        currentField = new Field(-1, -1);
+        board->highlight = currentField;
         maskAll();
 
         isRunning = true;
@@ -60,16 +63,30 @@ void Game::handleEvents()
                 break;
             }
 
-         case SDL_MOUSEBUTTONDOWN:
+        case SDL_MOUSEMOTION:
+            // TODO: check Left/Right/Both mouse buttons
             int x, y;
             SDL_GetMouseState(&x, &y);
-            click(x, y);
+            mousePoint->x = x;
+            mousePoint->y = y;
+            convertScreenToIso(mousePoint, currentField);
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+            clickField(currentField);
     }
 }
 
 void Game::update()
 {
-
+    // TODO: on screen text
+    if (gameOver) {
+        if (won) {
+            printf("YOU WON!\n");
+        } else {
+            printf("YOU LOOSE!\n");
+        }
+    }
 }
 
 void Game::render()
@@ -79,61 +96,85 @@ void Game::render()
     SDL_RenderPresent(renderer);
 }
 
-void Game::click(int screenX, int screenY)
+void Game::clickField(Field *field)
 {
     if (gameOver) {
         maskAll();
         gameOver = false;
         gameStarted = false;
+        won = false;
+
         return;
     }
 
-    int screenXwithOffset = screenX - offsetX;
-    int screenYwithOffset = screenY - offsetY;
-
-    Point clickedPoint2D = IsoConvert::isoToTwoD(screenXwithOffset, screenYwithOffset);
-    clickedPoint2D.x = clickedPoint2D.x - (board->getMapTileScreenWidth() / 2);
-    clickedPoint2D.y = clickedPoint2D.y + (board->getMapTileScreenHeight() / 2);
-
-    int column = ceil(clickedPoint2D.x / board->getMapTileScreenWidth()) -1;
-    int row = ceil(clickedPoint2D.y / board->getMapTileScreenHeight()) - 1;
-
-    if (row < 0 || row >= rows) {
+    if (field->y < 0 || field->y >= rows) {
       return;
     }
 
-    if (column < 0 || column >= columns) {
+    if (field->x < 0 || field->x >= columns) {
       return;
     }
 
     if (!gameStarted) {
-        startGame();
+        startGame(field);
     }
 
-    minefieldMask[row][column] = 0;
+    minefieldMask[field->y][field->x] = 0;
 
-    if (minefield[row][column] == mineMarker) {
-        printf("GAME OVER"); // TODO: fancy text
-
-        // TODO: mark stomped mine
-        // Uncover all
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                minefieldMask[y][x] = 0;
-            }
-        }
-
+    if (minefield[field->y][field->x] == mineMarker) {
+        minefield[field->y][field->x] = boomMarker;
+        uncoverAll();
         gameStarted = false;
         gameOver = true;
+        return;
     }
 
-    printDebug();
+    if (minefield[field->y][field->x] == 0) {
+        // Uncover zeros
+
+        bool uncovered = false;
+        do {
+            uncovered = false;
+            for (int y = 0; y < rows; y++) {
+                for (int x = 0; x < columns; x++) {
+                    if (minefield[y][x] != 0 || minefieldMask[y][x] != 0) {
+                        continue;
+                    }
+
+                    if (y > 0 && minefield[y-1][x] == 0 && minefieldMask[y-1][x] == 1) {
+                        minefieldMask[y-1][x] = 0;
+                        uncoverNumbersAround(x, y-1);
+                        uncovered = true;
+                    }
+
+                    if (x > 0 && minefield[y][x-1] == 0 && minefieldMask[y][x-1] == 1) {
+                        minefieldMask[y][x-1] = 0;
+                        uncoverNumbersAround(x-1, y);
+                        uncovered = true;
+                    }
+
+                    if (x < columns - 1 && minefield[y][x+1] == 0 && minefieldMask[y][x+1] == 1) {
+                        minefieldMask[y][x+1] = 0;
+                        uncoverNumbersAround(x+1, y);
+                        uncovered = true;
+                    }
+
+                    if (y < rows - 1 && minefield[y+1][x] == 0 && minefieldMask[y+1][x] == 1) {
+                        minefieldMask[y+1][x] = 0;
+                        uncoverNumbersAround(x, y+1);
+                        uncovered = true;
+                    }
+                }
+            }
+        } while (uncovered);
+    }
+
+    checkWin();
+    //printDebug();
 }
 
-void Game::startGame()
+void Game::startGame(Field *clickedField)
 {
-    // TODO: don't place mine on first clicked field
-
     // Clear minefield and it's mask
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < columns; x++) {
@@ -149,7 +190,7 @@ void Game::startGame()
         int x = rand() % columns;
         int y = rand() % rows;
 
-        if (minefield[y][x] != mineMarker) {
+        if (minefield[y][x] != mineMarker && x != clickedField->x && y != clickedField->y) {
             minefield[y][x] = mineMarker;
             minesLeftToPlace--;
         }
@@ -208,6 +249,83 @@ void Game::maskAll()
             minefieldMask[y][x] = 1;
         }
     }
+}
+
+void Game::uncoverAll()
+{
+    // Uncover all
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            minefieldMask[y][x] = 0;
+        }
+    }
+}
+
+void Game::convertScreenToIso(Point *point, Field *field)
+{
+    int screenXwithOffset = point->x - offsetX;
+    int screenYwithOffset = point->y - offsetY;
+
+    Point clickedPoint2D = IsoConvert::isoToTwoD(screenXwithOffset, screenYwithOffset);
+    clickedPoint2D.x = clickedPoint2D.x - (board->getMapTileScreenWidth() / 2);
+    clickedPoint2D.y = clickedPoint2D.y + (board->getMapTileScreenHeight() / 2);
+
+    int column = ceil(clickedPoint2D.x / board->getMapTileScreenWidth()) -1;
+    int row = ceil(clickedPoint2D.y / board->getMapTileScreenHeight()) - 1;
+
+    field->x = column;
+    field->y = row;
+}
+
+void Game::uncoverNumbersAround(int x, int y)
+{
+    if (y > 0 && x > 0 && minefield[y-1][x-1] > 0) {
+	    minefieldMask[y-1][x-1] = 0;
+	}
+
+	if (y > 0 && minefield[y-1][x] > 0) {
+	    minefieldMask[y-1][x] = 0;
+	}
+
+	if (y > 0 && x < columns - 1 && minefield[y-1][x+1] > 0) {
+	    minefieldMask[y-1][x+1] = 0;
+	}
+
+	if (x > 0 && minefield[y][x-1] > 0) {
+	    minefieldMask[y][x-1] = 0;
+	}
+
+	if (x < columns - 1 && minefield[y][x+1] > 0) {
+	    minefieldMask[y][x+1] = 0;
+	}
+
+	if (y < rows - 1 && x > 0 && minefield[y+1][x-1] > 0) {
+	    minefieldMask[y+1][x-1] = 0;
+	}
+
+	if (y < rows - 1 && minefield[y+1][x] > 0) {
+	    minefieldMask[y+1][x] = 0;
+	}
+
+	if (y < rows - 1 && x < columns - 1 && minefield[y+1][x+1] > 0) {
+	    minefieldMask[y+1][x+1] = 0;
+	}
+}
+
+void Game::checkWin()
+{
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            if (minefieldMask[y][x] == 1 && minefield[y][x] != mineMarker) {
+                return;
+            }
+        }
+    }
+
+    gameOver = true;
+    won = true;
+    gameStarted = false;
+    uncoverAll();
 }
 
 void Game::printDebug()
