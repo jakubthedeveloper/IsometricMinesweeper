@@ -14,6 +14,14 @@ Game::Game()
         );
         renderer = SDL_CreateRenderer(window, -1, 0);
         board = new Board(renderer, offsetX, offsetY, rows, columns);
+
+        // Set initial full mask
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                minefieldMask[y][x] = 1;
+            }
+        }
+
         isRunning = true;
     } else {
         isRunning = false;
@@ -72,7 +80,7 @@ void Game::update()
 
 void Game::render()
 {
-    board->draw();
+    board->draw(minefield, minefieldMask);
 
     SDL_RenderPresent(renderer);
 }
@@ -103,13 +111,18 @@ void Game::click(int screenX, int screenY)
 
     minefieldMask[row][column] = 0;
 
-    // TODO: check field, update board
+    if (minefield[row][column] == mineMarker) {
+        printf("GAME OVER"); // TODO: fancy text
+        gameStarted = false;
+    }
 
     printDebug();
 }
 
 void Game::startGame()
 {
+    // TODO: don't place mine on first clicked field
+
     // Clear minefield and it's mask
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < columns; x++) {

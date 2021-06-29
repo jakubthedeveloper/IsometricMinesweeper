@@ -11,7 +11,7 @@ class Board
     public:
         Board(SDL_Renderer *renderer, int offsetX, int offsetY, int rows, int columns);
         virtual ~Board();
-        void draw();
+        void draw(int minefield[8][8], int minefieldMask[8][8]);
 
         int getMapTileScreenWidth();
         int getMapTileScreenHeight();
@@ -23,6 +23,16 @@ class Board
         int offsetX;
         int offsetY;
         SDL_Texture* groundTex;
+        SDL_Texture* deepGroundTex;
+        SDL_Texture* mineTex;
+        SDL_Texture* oneTex;
+        SDL_Texture* twoTex;
+        SDL_Texture* threeTex;
+        SDL_Texture* fourTex;
+        SDL_Texture* fiveTex;
+        SDL_Texture* sixTex;
+        SDL_Texture* sevenTex;
+        SDL_Texture* eightTex;
         int columns;
         int rows;
 
@@ -30,6 +40,7 @@ class Board
         int mapTileHeight = 65;
         int mapTileScreenWidth = 40;
         int mapTileScreenHeight = 40;
+        int deepGroundOffsetY = 2;
 
         SDL_Rect tileRect;
 };
