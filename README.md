@@ -13,6 +13,10 @@ sh compile.sh
 ## Run
 ./bin/isometric-minesweeeper
 
+## Download binary
+
+[Download](https://jakubthedeveloper.itch.io/isometric-minesweeper)
+
 ## Screenshots
 
 ![Isometric Minesweeper - screenshot 1](screenshots/1.png)
