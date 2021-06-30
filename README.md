@@ -1,6 +1,8 @@
 # Isometric Minesweeper
 Minesweeper in isometric view, written in C++ / SDL2.
 
+![Isometric Minesweeper - screenshot](screenshots/cover.png)
+
 ## Dependencies
 SDL2
 SDL2_image
