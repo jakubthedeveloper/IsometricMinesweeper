@@ -4,6 +4,7 @@ Game::Game()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
     {
+        isoConvert = new IsoConvert();
         window = SDL_CreateWindow(
             "Isometric Minesweeper",
             SDL_WINDOWPOS_CENTERED,
@@ -13,25 +14,18 @@ Game::Game()
             windowFlags
         );
         renderer = SDL_CreateRenderer(window, -1, 0);
+        textureLoader = new TextureLoader(renderer);
 
-        SDL_Surface* youWonSurface = IMG_Load("resources/images/you-won.png");
-        SDL_Surface* youLooseSurface = IMG_Load("resources/images/you-loose.png");
-
-        if (!youWonSurface) { printf("Failed to load you-won image."); exit(1); }
-        if (!youLooseSurface) { printf("Failed to load you-loose image."); exit(1); }
-
-        youWonTex = SDL_CreateTextureFromSurface(renderer, youWonSurface);
-        youLooseTex = SDL_CreateTextureFromSurface(renderer, youLooseSurface);
-
-        SDL_FreeSurface(youWonSurface);
-        SDL_FreeSurface(youLooseSurface);
-
-        infoImgRect.w = 600;
-        infoImgRect.h = 143;
-        infoImgRect.x = 110;
-        infoImgRect.y = 470;
-
-        board = new Board(renderer, offsetX, offsetY, rows, columns);
+        board = new Board(
+            renderer,
+            textureLoader,
+            offsetX,
+            offsetY,
+            rows,
+            columns,
+            isoConvert
+        );
+        gui = new Gui(renderer, textureLoader);
         mousePoint = new Point(0, 0);
         currentField = new Field(-1, -1);
         board->highlight = currentField;
@@ -87,7 +81,14 @@ void Game::handleEvents()
             SDL_GetMouseState(&x, &y);
             mousePoint->x = x;
             mousePoint->y = y;
-            convertScreenToIso(mousePoint, currentField);
+            isoConvert->pointToField(
+                mousePoint,
+                currentField,
+                offsetX,
+                offsetY,
+                board->getMapTileScreenWidth(),
+                board->getMapTileScreenHeight()
+            );
             break;
 
         case SDL_MOUSEBUTTONDOWN:
@@ -106,9 +107,9 @@ void Game::render()
 
     if (gameOver) {
         if (won) {
-            SDL_RenderCopy(renderer, youWonTex, NULL, &infoImgRect);
+            gui->drawYouWon();
         } else {
-            SDL_RenderCopy(renderer, youLooseTex, NULL, &infoImgRect);
+            gui->drawYouLoose();
         }
     }
 
@@ -127,11 +128,11 @@ void Game::clickField(Field *field)
     }
 
     if (field->y < 0 || field->y >= rows) {
-      return;
+        return;
     }
 
     if (field->x < 0 || field->x >= columns) {
-      return;
+        return;
     }
 
     if (!gameStarted) {
@@ -188,6 +189,7 @@ void Game::clickField(Field *field)
     }
 
     checkWin();
+
     //printDebug();
 }
 
@@ -277,22 +279,6 @@ void Game::uncoverAll()
             minefieldMask[y][x] = 0;
         }
     }
-}
-
-void Game::convertScreenToIso(Point *point, Field *field)
-{
-    int screenXwithOffset = point->x - offsetX;
-    int screenYwithOffset = point->y - offsetY;
-
-    Point clickedPoint2D = IsoConvert::isoToTwoD(screenXwithOffset, screenYwithOffset);
-    clickedPoint2D.x = clickedPoint2D.x - (board->getMapTileScreenWidth() / 2);
-    clickedPoint2D.y = clickedPoint2D.y + (board->getMapTileScreenHeight() / 2);
-
-    int column = ceil(clickedPoint2D.x / board->getMapTileScreenWidth()) -1;
-    int row = ceil(clickedPoint2D.y / board->getMapTileScreenHeight()) - 1;
-
-    field->x = column;
-    field->y = row;
 }
 
 void Game::uncoverNumbersAround(int x, int y)

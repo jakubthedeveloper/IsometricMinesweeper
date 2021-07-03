@@ -1,64 +1,38 @@
 #include "Board.h"
 
-Board::Board(SDL_Renderer *_renderer, int _offsetX, int _offsetY, int _rows, int _columns)
-{
+Board::Board(
+    SDL_Renderer *_renderer,
+    TextureLoader *_textureLoader,
+    int _offsetX,
+    int _offsetY,
+    int _rows,
+    int _columns,
+    IsoConvert *_isoConvert
+) {
     renderer = _renderer;
+    textureLoader = _textureLoader;
     offsetX = _offsetX;
     offsetY = _offsetY;
     rows = _rows;
     columns = _columns;
+    isoConvert = _isoConvert;
 
-    SDL_Surface* groundSurface = IMG_Load("resources/images/ground.png");
-    SDL_Surface* deepGroundSurface = IMG_Load("resources/images/deep_ground.png");
-    SDL_Surface* mineSurface = IMG_Load("resources/images/mine.png");
-    SDL_Surface* oneSurface = IMG_Load("resources/images/1.png");
-    SDL_Surface* twoSurface = IMG_Load("resources/images/2.png");
-    SDL_Surface* threeSurface = IMG_Load("resources/images/3.png");
-    SDL_Surface* fourSurface = IMG_Load("resources/images/4.png");
-    SDL_Surface* fiveSurface = IMG_Load("resources/images/5.png");
-    SDL_Surface* sixSurface = IMG_Load("resources/images/6.png");
-    SDL_Surface* sevenSurface = IMG_Load("resources/images/7.png");
-    SDL_Surface* eightSurface = IMG_Load("resources/images/8.png");
+    groundTex = textureLoader->load("resources/images/ground.png");
+    groundTexHighlighted = textureLoader->load("resources/images/ground.png");
+    deepGroundTex = textureLoader->load("resources/images/deep_ground.png");
+    mineTex = textureLoader->load("resources/images/mine.png");
+    boomTex = textureLoader->load("resources/images/mine.png");
+    oneTex = textureLoader->load("resources/images/1.png");
+    twoTex = textureLoader->load("resources/images/2.png");
+    threeTex = textureLoader->load("resources/images/3.png");
+    fourTex = textureLoader->load("resources/images/4.png");
+    fiveTex = textureLoader->load("resources/images/5.png");
+    sixTex = textureLoader->load("resources/images/6.png");
+    sevenTex = textureLoader->load("resources/images/7.png");
+    eightTex = textureLoader->load("resources/images/8.png");
 
-    if (!groundSurface) { printf("Failed to load ground image."); exit(1); }
-    if (!deepGroundSurface) { printf("Failed to load deep ground image."); exit(1); }
-    if (!mineSurface) { printf("Failed to load ground image."); exit(1); }
-    if (!oneSurface) { printf("Failed to load one image."); exit(1); }
-    if (!twoSurface) { printf("Failed to load two image."); exit(1); }
-    if (!threeSurface) { printf("Failed to load three image."); exit(1); }
-    if (!fourSurface) { printf("Failed to load four image."); exit(1); }
-    if (!fiveSurface) { printf("Failed to load five image."); exit(1); }
-    if (!sixSurface) { printf("Failed to load six image."); exit(1); }
-    if (!sevenSurface) { printf("Failed to load seven image."); exit(1); }
-    if (!eightSurface) { printf("Failed to load eight image."); exit(1); }
-
-    groundTex = SDL_CreateTextureFromSurface(renderer, groundSurface);
-    groundTexHighlighted = SDL_CreateTextureFromSurface(renderer, groundSurface);
     SDL_SetTextureColorMod(groundTexHighlighted, 255, 200, 50);
-    deepGroundTex = SDL_CreateTextureFromSurface(renderer, deepGroundSurface);
-    mineTex = SDL_CreateTextureFromSurface(renderer, mineSurface);
-    boomTex = SDL_CreateTextureFromSurface(renderer, mineSurface);
     SDL_SetTextureColorMod(boomTex, 255, 0, 0);
-    oneTex = SDL_CreateTextureFromSurface(renderer, oneSurface);
-    twoTex = SDL_CreateTextureFromSurface(renderer, twoSurface);
-    threeTex = SDL_CreateTextureFromSurface(renderer, threeSurface);
-    fourTex = SDL_CreateTextureFromSurface(renderer, fourSurface);
-    fiveTex = SDL_CreateTextureFromSurface(renderer, fiveSurface);
-    sixTex = SDL_CreateTextureFromSurface(renderer, sixSurface);
-    sevenTex = SDL_CreateTextureFromSurface(renderer, sevenSurface);
-    eightTex = SDL_CreateTextureFromSurface(renderer, eightSurface);
-
-    SDL_FreeSurface(groundSurface);
-    SDL_FreeSurface(deepGroundSurface);
-    SDL_FreeSurface(mineSurface);
-    SDL_FreeSurface(oneSurface);
-    SDL_FreeSurface(twoSurface);
-    SDL_FreeSurface(threeSurface);
-    SDL_FreeSurface(fourSurface);
-    SDL_FreeSurface(fiveSurface);
-    SDL_FreeSurface(sixSurface);
-    SDL_FreeSurface(sevenSurface);
-    SDL_FreeSurface(eightSurface);
 }
 
 Board::~Board()
@@ -78,7 +52,7 @@ void Board::draw(int minefield[8][8], int minefieldMask[8][8])
     // Draw deep ground
     for (int y = 0; y < columns; y++) {
         for (int x = 0; x < rows; x++) {
-            Point p = IsoConvert::twoDToIso(mapTileScreenWidth * x, mapTileScreenHeight * y);
+            Point p = isoConvert->twoDToIso(mapTileScreenWidth * x, mapTileScreenHeight * y);
             tileRect.x = p.x + offsetX;
             tileRect.y = p.y + offsetY + deepGroundOffsetY;
 
@@ -89,7 +63,7 @@ void Board::draw(int minefield[8][8], int minefieldMask[8][8])
     // Draw numbers and mines
     for (int y = 0; y < columns; y++) {
         for (int x = 0; x < rows; x++) {
-            Point p = IsoConvert::twoDToIso(mapTileScreenWidth * x, mapTileScreenHeight * y);
+            Point p = isoConvert->twoDToIso(mapTileScreenWidth * x, mapTileScreenHeight * y);
             tileRect.x = p.x + offsetX;
             tileRect.y = p.y + offsetY;
 

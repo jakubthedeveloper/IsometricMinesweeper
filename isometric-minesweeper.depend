@@ -1,21 +1,23 @@
 # depslib dependency file v1.0
-1624985306 source:/home/jakub/programowanie/kuba-minesweeper/src/Board.cpp
+1625305417 source:/home/jakub/programowanie/kuba-minesweeper/src/Board.cpp
 	"Board.h"
 
-1624986645 /home/jakub/programowanie/kuba-minesweeper/include/Board.h
+1625305097 /home/jakub/programowanie/kuba-minesweeper/include/Board.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	"Point.h"
 	"Field.h"
 	"IsoConvert.h"
+	"TextureLoader.h"
 
-1624995968 source:/home/jakub/programowanie/kuba-minesweeper/src/Game.cpp
+1625305057 source:/home/jakub/programowanie/kuba-minesweeper/src/Game.cpp
 	"Game.h"
-	<unistd.h>
 
-1624988737 /home/jakub/programowanie/kuba-minesweeper/include/Game.h
+1625304810 /home/jakub/programowanie/kuba-minesweeper/include/Game.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_ttf.h>
+	"TextureLoader.h"
+	"Gui.h"
 	"Board.h"
 	"Point.h"
 	"Field.h"
@@ -24,12 +26,14 @@
 	<iostream>
 	"Game.h"
 
-1624956337 /home/jakub/programowanie/kuba-minesweeper/include/IsoConvert.h
+1625303361 /home/jakub/programowanie/kuba-minesweeper/include/IsoConvert.h
+	<cmath>
 	<Point.h>
+	<Field.h>
 
 1624979900 /home/jakub/programowanie/kuba-minesweeper/include/Point.h
 
-1624956337 source:/home/jakub/programowanie/kuba-minesweeper/src/IsoConvert.cpp
+1625303310 source:/home/jakub/programowanie/kuba-minesweeper/src/IsoConvert.cpp
 	"IsoConvert.h"
 
 1624956382 source:/home/jakub/programowanie/kuba-minesweeper/src/Point.cpp
@@ -39,4 +43,19 @@
 
 1624979837 source:/home/jakub/programowanie/kuba-minesweeper/src/Field.cpp
 	"Field.h"
+
+1625304846 /home/jakub/programowanie/kuba-minesweeper/include/Gui.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"TextureLoader.h"
+
+1625304954 source:/home/jakub/programowanie/kuba-minesweeper/src/Gui.cpp
+	"Gui.h"
+
+1625304971 /home/jakub/programowanie/kuba-minesweeper/include/TextureLoader.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1625304954 source:/home/jakub/programowanie/kuba-minesweeper/src/TextureLoader.cpp
+	"TextureLoader.h"
 

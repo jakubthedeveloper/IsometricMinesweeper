@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "TextureLoader.h"
+#include "Gui.h"
 #include "Board.h"
 #include "Point.h"
 #include "Field.h"
@@ -19,22 +21,19 @@ class Game
     protected:
 
     private:
+        TextureLoader *textureLoader;
+        Board *board;
+        Gui *gui;
+        Point *mousePoint;
+        Field *currentField;
+        IsoConvert *isoConvert;
+        SDL_Window *window;
+        SDL_Renderer *renderer;
+
         bool isRunning;
         bool gameStarted = false;
         bool gameOver = false;
         bool won = false;
-        void handleEvents();
-        void update();
-        void render();
-        void maskAll();
-        void clickField(Field *point);
-        Uint32 frameStart;
-        int frameTime;
-        const int frameDelay = 1000 / 60; // 60 FPS
-
-        SDL_Window *window;
-        SDL_Renderer *renderer;
-
         int columns = 8;
         int rows = 8;
         int numberOfMines = 10;
@@ -43,23 +42,22 @@ class Game
         int windowWidth = 840;
         int windowHeight = 600;
         int windowFlags = 0;
-
         int offsetX = 370;
         int offsetY = 40;
+        Uint32 frameStart;
+        int frameTime;
+        const int frameDelay = 1000 / 60; // 60 FPS
 
-        Board *board;
+        void handleEvents();
+        void update();
+        void render();
+        void maskAll();
+        void clickField(Field *point);
         void startGame(Field *clickedField);
         void printDebug();
-        Point *mousePoint;
-        Field *currentField;
-        void convertScreenToIso(Point *point, Field *currentField);
         void uncoverNumbersAround(int x, int y);
         void checkWin();
         void uncoverAll();
-
-        SDL_Texture* youWonTex;
-        SDL_Texture* youLooseTex;
-        SDL_Rect infoImgRect;
 };
 
 #endif // GAME_H

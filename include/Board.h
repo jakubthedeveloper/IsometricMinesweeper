@@ -6,11 +6,20 @@
 #include "Point.h"
 #include "Field.h"
 #include "IsoConvert.h"
+#include "TextureLoader.h"
 
 class Board
 {
     public:
-        Board(SDL_Renderer *renderer, int offsetX, int offsetY, int rows, int columns);
+        Board(
+            SDL_Renderer *renderer,
+            TextureLoader *textureLoader,
+            int offsetX,
+            int offsetY,
+            int rows,
+            int columns,
+            IsoConvert *isoConvert
+        );
         virtual ~Board();
         void draw(int minefield[8][8], int minefieldMask[8][8]);
 
@@ -22,6 +31,8 @@ class Board
 
     private:
         SDL_Renderer *renderer;
+        TextureLoader *textureLoader;
+        IsoConvert *isoConvert;
         int offsetX;
         int offsetY;
         SDL_Texture* groundTex;
