@@ -101,7 +101,7 @@ void Game::render()
         if (won) {
             gui->drawYouWon();
         } else {
-            gui->drawYouLoose();
+            gui->drawYouLose();
         }
     }
 

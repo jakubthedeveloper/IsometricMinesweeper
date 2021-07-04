@@ -76,7 +76,7 @@
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 
-1625383401 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/Gui.h
+1625385761 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/Gui.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	"TextureLoader.h"
@@ -104,10 +104,10 @@
 1625385204 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Field.cpp
 	"Field.h"
 
-1625385321 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Game.cpp
+1625385752 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Game.cpp
 	"Game.h"
 
-1625383539 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Gui.cpp
+1625385741 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Gui.cpp
 	"Gui.h"
 
 1625385215 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/IsoConvert.cpp

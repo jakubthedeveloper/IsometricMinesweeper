@@ -11,7 +11,7 @@ class Gui
         Gui(SDL_Renderer *renderer, TextureLoader *textureLoader);
         virtual ~Gui();
         void drawYouWon();
-        void drawYouLoose();
+        void drawYouLose();
 
     protected:
 
@@ -19,7 +19,7 @@ class Gui
         TextureLoader *textureLoader;
         SDL_Renderer *renderer;
         SDL_Texture *youWonTex;
-        SDL_Texture *youLooseTex;
+        SDL_Texture *youLoseTex;
         SDL_Rect infoImgRect = {
             110, // x
             470, // y

@@ -6,7 +6,7 @@ Gui::Gui(SDL_Renderer *_renderer, TextureLoader *_textureLoader)
     textureLoader = _textureLoader;
 
     youWonTex = textureLoader->load("resources/images/you-won.png");
-    youLooseTex = textureLoader->load("resources/images/you-lose.png");
+    youLoseTex = textureLoader->load("resources/images/you-lose.png");
 }
 
 Gui::~Gui()
@@ -19,7 +19,7 @@ void Gui::drawYouWon()
     SDL_RenderCopy(renderer, youWonTex, NULL, &infoImgRect);
 }
 
-void Gui::drawYouLoose()
+void Gui::drawYouLose()
 {
-    SDL_RenderCopy(renderer, youLooseTex, NULL, &infoImgRect);
+    SDL_RenderCopy(renderer, youLoseTex, NULL, &infoImgRect);
 }
