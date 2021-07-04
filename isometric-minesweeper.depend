@@ -59,3 +59,63 @@
 1625304954 source:/home/jakub/programowanie/kuba-minesweeper/src/TextureLoader.cpp
 	"TextureLoader.h"
 
+1625037047 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/main.cpp
+	<iostream>
+	"Game.h"
+
+1625383401 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/Game.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_ttf.h>
+	"TextureLoader.h"
+	"Gui.h"
+	"Board.h"
+	"Point.h"
+	"Field.h"
+
+1625383401 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/TextureLoader.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1625383401 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/Gui.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"TextureLoader.h"
+
+1625383401 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/Board.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"Point.h"
+	"Field.h"
+	"IsoConvert.h"
+	"TextureLoader.h"
+
+1625037047 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/Point.h
+
+1625037047 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/Field.h
+
+1625383401 /media/jakub/Home/programowanie/kuba-IsometricMinesweeper/include/IsoConvert.h
+	<cmath>
+	<Point.h>
+	<Field.h>
+
+1625383401 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Board.cpp
+	"Board.h"
+
+1625037047 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Field.cpp
+	"Field.h"
+
+1625383401 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Game.cpp
+	"Game.h"
+
+1625383539 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Gui.cpp
+	"Gui.h"
+
+1625383401 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/IsoConvert.cpp
+	"IsoConvert.h"
+
+1625037047 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/Point.cpp
+	"Point.h"
+
+1625383401 source:/media/jakub/Home/programowanie/kuba-IsometricMinesweeper/src/TextureLoader.cpp
+	"TextureLoader.h"
+

@@ -6,7 +6,7 @@ Gui::Gui(SDL_Renderer *_renderer, TextureLoader *_textureLoader)
     textureLoader = _textureLoader;
 
     youWonTex = textureLoader->load("resources/images/you-won.png");
-    youLooseTex = textureLoader->load("resources/images/you-loose.png");
+    youLooseTex = textureLoader->load("resources/images/you-lose.png");
 }
 
 Gui::~Gui()

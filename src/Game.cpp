@@ -55,7 +55,7 @@ void Game::mainLoop()
         frameTime = SDL_GetTicks() - frameStart;
 
         if (frameDelay > frameTime) {
-            SDL_Delay(frameDelay - frameTime);
+            //SDL_Delay(frameDelay - frameTime);
         }
     }
 }
