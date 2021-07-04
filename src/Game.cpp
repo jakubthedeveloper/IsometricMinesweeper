@@ -152,27 +152,59 @@ void Game::clickField(Field *field)
                         continue;
                     }
 
+                    // X, Y - 1
                     if (y > 0 && minefield[y-1][x] == 0 && minefieldMask[y-1][x] == 1) {
                         minefieldMask[y-1][x] = 0;
                         uncoverNumbersAround(x, y-1);
                         uncovered = true;
                     }
 
+                    // X - 1, Y - 1
+                    if (x > 0 && minefield[y][x-1] == 0 && y > 0 && minefield[y-1][x-1] == 0 && minefieldMask[y-1][x-1] == 1) {
+                        minefieldMask[y-1][x-1] = 0;
+                        uncoverNumbersAround(x-1, y-1);
+                        uncovered = true;
+                    }
+
+                    // X + 1, Y - 1
+                    if (x < columns - 1 && y > 0 && minefield[y-1][x+1] == 0 && minefieldMask[y-1][x+1] == 1) {
+                        minefieldMask[y-1][x+1] = 0;
+                        uncoverNumbersAround(x+1, y-1);
+                        uncovered = true;
+                    }
+
+                    // X - 1, Y
                     if (x > 0 && minefield[y][x-1] == 0 && minefieldMask[y][x-1] == 1) {
                         minefieldMask[y][x-1] = 0;
                         uncoverNumbersAround(x-1, y);
                         uncovered = true;
                     }
 
+                    // X + 1, Y
                     if (x < columns - 1 && minefield[y][x+1] == 0 && minefieldMask[y][x+1] == 1) {
                         minefieldMask[y][x+1] = 0;
                         uncoverNumbersAround(x+1, y);
                         uncovered = true;
                     }
 
+                    // X, Y + 1
                     if (y < rows - 1 && minefield[y+1][x] == 0 && minefieldMask[y+1][x] == 1) {
                         minefieldMask[y+1][x] = 0;
                         uncoverNumbersAround(x, y+1);
+                        uncovered = true;
+                    }
+
+                    // X - 1, Y + 1
+                    if (x > 0 && y < rows - 1 && minefield[y+1][x-1] == 0 && minefieldMask[y+1][x-1] == 1) {
+                        minefieldMask[y+1][x-1] = 0;
+                        uncoverNumbersAround(x-1, y+1);
+                        uncovered = true;
+                    }
+
+                    // X + 1, Y + 1
+                    if (y < rows - 1 && minefield[y+1][x+1] == 0 && minefieldMask[y+1][x+1] == 1) {
+                        minefieldMask[y+1][x+1] = 0;
+                        uncoverNumbersAround(x+1, y+1);
                         uncovered = true;
                     }
                 }
