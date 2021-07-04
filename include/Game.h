@@ -44,10 +44,6 @@ class Game
         int windowFlags = 0;
         int offsetX = 370;
         int offsetY = 40;
-        Uint32 frameStart;
-        int frameTime;
-        const int frameDelay = 1000 / 60; // 60 FPS
-
         void handleEvents();
         void update();
         void render();

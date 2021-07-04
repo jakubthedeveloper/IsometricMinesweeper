@@ -46,17 +46,9 @@ void Game::mainLoop()
 {
     while (isRunning)
     {
-        frameStart = SDL_GetTicks();
-
         handleEvents();
         update();
         render();
-
-        frameTime = SDL_GetTicks() - frameStart;
-
-        if (frameDelay > frameTime) {
-            //SDL_Delay(frameDelay - frameTime);
-        }
     }
 }
 
